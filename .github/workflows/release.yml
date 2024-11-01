@@ -28,15 +28,18 @@ jobs:
         run: |
           echo "## What's Changed" > release_body.md
           cat CHANGELOG.md >> release_body.md
-          echo "\n[Docker Hub](https://hub.docker.com/r/${{ secrets.DOCKERHUB_USERNAME }}/kube-info)" >> release_body.md
+          echo -e "\n\n[Docker Hub](https://hub.docker.com/r/${{ secrets.DOCKERHUB_USERNAME }}/kube-info)" >> release_body.md
+
+      - name: Read release body
+        id: read_body
+        run: echo "RELEASE_BODY<<EOF" >> $GITHUB_ENV && cat release_body.md >> $GITHUB_ENV && echo "EOF" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-          body: |
-            $(cat release_body.md)
+          body: ${{ env.RELEASE_BODY }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
