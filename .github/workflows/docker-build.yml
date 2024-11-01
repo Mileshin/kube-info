@@ -6,7 +6,7 @@ on:
       - '*' 
     branches:
       - main
-      - ci
+      - test_release
   pull_request:
     branches:
       - main
