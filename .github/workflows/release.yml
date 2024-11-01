@@ -9,13 +9,13 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
       - name: Build and push Docker image
         uses: ./.github/workflows/docker-build.yml
         with:
           tag: ${{ github.ref_name }}
-
-      - name: Checkout the code
-        uses: actions/checkout@v4
 
       - name: Read CHANGELOG.md
         id: read_changelog
