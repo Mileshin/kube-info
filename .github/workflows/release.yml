@@ -1,0 +1,42 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-docker-image:
+    uses: ./.github/workflows/docker-build.yml
+    with:
+      tag: ${{ github.ref_name }}
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Read CHANGELOG.md
+        id: read_changelog
+        run: |
+          echo "## What's Changed" > release_body.md
+          cat CHANGELOG.md >> release_body.md
+          echo "\n[Docker Hub](https://hub.docker.com/r/${{ secrets.DOCKERHUB_USERNAME }}/kube-info)" >> release_body.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: |
+            $(cat release_body.md)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
