@@ -34,6 +34,4 @@ jobs:
           name: Release ${{ github.ref_name }}
           body: |
             $(cat release_body.md)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
