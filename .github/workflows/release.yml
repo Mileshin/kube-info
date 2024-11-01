@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-docker-image:
-    uses: ./.github/workflows/_docker_build.yaml
+    uses: ./.github/workflows/docker_build.yaml
     with:
       tag: ${{ github.ref_name }}
 
