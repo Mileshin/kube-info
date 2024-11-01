@@ -1,0 +1,36 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build and push Docker image
+        uses: ./.github/workflows/docker-build.yml
+        with:
+          tag: ${{ github.ref_name }}
+
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Read CHANGELOG.md
+        id: read_changelog
+        run: |
+          echo "## What's Changed" > release_body.md
+          cat CHANGELOG.md >> release_body.md
+          echo "\n[Docker Hub](https://hub.docker.com/r/${{ secrets.DOCKERHUB_USERNAME }}/kube-info)" >> release_body.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: |
+            $(cat release_body.md)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

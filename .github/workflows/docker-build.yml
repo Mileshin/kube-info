@@ -1,18 +1,15 @@
-name: Docker Build
+name: Docker Build and Push
 
 on:
-  push:
-    tags:
-      - '*' 
-    branches:
-      - main
-      - test_release
-  pull_request:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Docker tag for the image'
+        required: true
+        type: string
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,22 +25,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Set Docker tag
-        id: docker_tag
-        run: |
-          if [ "${{ github.ref_type }}" == "tag" ]; then
-            echo "tag=${{ github.ref_name }}" >> $GITHUB_ENV
-          else
-            echo "tag=latest" >> $GITHUB_ENV
-          fi
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/kube-info:${{ env.tag }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/kube-info:${{ inputs.tag }}
 
       - name: Image details
-        run: docker images ${{ secrets.DOCKERHUB_USERNAME }}/kube-info:${{ env.tag }}
+        run: docker images ${{ secrets.DOCKERHUB_USERNAME }}/kube-info:${{ inputs.tag }}
