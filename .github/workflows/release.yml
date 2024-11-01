@@ -6,16 +6,16 @@ on:
       - 'v*.*.*'
 
 jobs:
+  build-docker-image:
+    uses: ./.github/workflows/_docker_build.yaml
+    with:
+      tag: ${{ github.ref_name }}
+
   release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
-
-      - name: Build and push Docker image
-        uses: ./.github/workflows/docker-build.yml
-        with:
-          tag: ${{ github.ref_name }}
 
       - name: Read CHANGELOG.md
         id: read_changelog
