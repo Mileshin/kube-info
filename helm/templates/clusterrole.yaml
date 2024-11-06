@@ -1,0 +1,11 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ (include "kube_info.fullname" .) }}-clusterrole
+  labels:
+    {{- include "kube_info.metaLabels" . | nindent 4 }}
+    app.kubernetes.io/component: kube-info
+rules:
+- apiGroups: [""]
+  resources: ["nodes", "services", "pods"]
+  verbs: ["get", "list", "watch"]

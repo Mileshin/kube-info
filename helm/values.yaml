@@ -1,0 +1,19 @@
+namespace: ""
+
+image:
+  repository: andreymileshin/kube-info
+## Rewrite application version
+#  tag: latest
+
+
+serviceaccount:
+  create: false
+  name: default
+
+service:
+  port: 8080
+  targetPort: 8080
+
+nodeSelector: {}
+
+tolerations: []
