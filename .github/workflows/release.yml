@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build-docker-image:
-    uses: ./.github/workflows/docker-build.yml
+    uses: ./.github/workflows/__docker-build.yml
     with:
       tag: ${{ github.ref_name }}
     secrets:
