@@ -1,0 +1,9 @@
+---
+apiVersion: v2
+description: This Helm Chart installs a service for collecting information about a Kubernetes cluster.
+name: kube-info
+
+type: application
+
+version: 0.1.0
+appVersion: "v0.1.0"

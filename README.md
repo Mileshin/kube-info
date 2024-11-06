@@ -10,13 +10,13 @@ This API enables you to gather information about Kubernetes nodes and services o
 
 #### 1. Get Node Information
 
-##### **GET** `/nodeinfo`
+##### **GET** `/node-external-ip`
 - **Description**: Retrieves the external IP addresses for all nodes in the Kubernetes cluster.
 - **Response**: Returns a list of nodes, each with its name and associated external IP address.
 
 ##### Example Request:
 ```bash
-curl -X GET http://<service-ip>:8080/nodeinfo
+curl -X GET http://<service-ip>:8080/node-external-ip
 ```
 
 ##### Example Response:
@@ -108,11 +108,13 @@ You can forward the service port to localhost to test the API:
 ```bash
 kubectl port-forward service/nodeinfo-service 8080:8080 -n kube-info
 
-curl -X GET http://localhost:8080/nodeinfo
+curl -X GET http://localhost:8080/node-external-ip
 ```
 
 Alternatively, create a temporary pod to test API access within the cluster:
 
 ```bash
-kubectl run curl-pod --rm -it --image=curlimages/curl:8.9.1 -- curl http://kubeinfo-service.kube-info.svc.cluster.local:8080/nodeinfo
+kubectl run curl-pod --rm -it --image=curlimages/curl:8.9.1 -- curl http://kubeinfo-service.kube-info.svc.cluster.local:8080/node-external-ip
 ```
+
+## Helm
