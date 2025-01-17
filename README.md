@@ -118,3 +118,26 @@ kubectl run curl-pod --rm -it --image=curlimages/curl:8.9.1 -- curl http://kubei
 ```
 
 ## Helm
+
+This Helm chart deploys a DaemonSet named `kube-info` and configures the necessary roles, role bindings, and ServiceAccount for proper operation.  
+The service is deployed using a DaemonSet.
+
+**Required permissions:**
+
+- **Resources**: `nodes`, `services`, `pods`
+- **Actions**: `get`, `list`, `watch`
+- **Access level**: cluster-wide (`ClusterRole`)
+
+These permissions allow the `DaemonSet` to retrieve information about the specified resources in the cluster.
+
+**Chart installation:**
+
+```bash
+helm install kube-info ./kube-info -n <namespace> --values values.yaml
+```
+
+**Chart removal:**
+
+```bash
+helm uninstall kube-info -n <namespace>
+```
