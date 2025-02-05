@@ -2,7 +2,7 @@ name: Release Helm Chart
 
 on:
   push:
-    branches: [helm_release]
+    branches: [main]
 
 permissions:
   contents: write
@@ -16,7 +16,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        
+
     - name: Configure Git
       run: |
         git config user.name "$GITHUB_ACTOR"
@@ -28,31 +28,3 @@ jobs:
         charts_dir: helm
       env:
         CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-    # - name: Setup Helm
-    #   uses: azure/setup-helm@v4.2.0
-
-    # - name: Package Helm Chart
-    #   run: |
-    #     helm package ./helm
-    #     mv *.tgz kube-info.tgz
-
-    # - name: Create GitHub Release
-    #   uses: softprops/action-gh-release@v2
-    #   with:
-    #     tag_name: ${{ github.ref_name }}
-    #     name: Release ${{ github.ref_name }}
-    #     body: |
-    #       New Helm Chart release for version ${{ github.ref_name }}.
-    #       - Packaged chart: `kube-info.tgz`
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    # - name: Create GitHub Release
-    #   uses: ncipollo/release-action@v1
-    #   with:
-    #     artifacts: packaged-chart.tgz
-    #     tag: ${{ github.ref_name }}
-    #     release_name: Helm Chart ${{ github.ref_name }}
-    #     body: |
-    #       New Helm Chart release for version ${{ github.ref_name }}.
-    #       - Packaged chart: `packaged-chart.tgz`
