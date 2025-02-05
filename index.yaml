@@ -1,0 +1,15 @@
+apiVersion: v1
+entries:
+  kube-info:
+  - apiVersion: v2
+    appVersion: v0.1.0
+    created: "2025-02-05T19:14:36.875590271Z"
+    description: This Helm Chart installs a service for collecting information about
+      a Kubernetes cluster.
+    digest: d159f1dcb6c62252e22097ba1a887ca4dc2a78e869690321c980f5d62fe69fd3
+    name: kube-info
+    type: application
+    urls:
+    - https://github.com/Mileshin/kube-info/releases/download/kube-info-0.1.0/kube-info-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-02-05T19:14:36.875598977Z"
