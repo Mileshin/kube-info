@@ -15,12 +15,17 @@ jobs:
     - name: Checkout the code
       uses: actions/checkout@v4
 
+    - name: Configure Git
+      run: |
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
     - name: Run chart-releaser
       uses: helm/chart-releaser-action@v1.7.0
       with:
         charts_dir: helm
-        token: ${{ secrets.GITHUB_TOKEN }}
-        charts_repo_url: https://github.com/Mileshin/kube-info
+      env:
+        CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
     # - name: Setup Helm
     #   uses: azure/setup-helm@v4.2.0
 
